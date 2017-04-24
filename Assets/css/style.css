@@ -14,7 +14,7 @@ footer {
 }
 
 h1 {
-  font-size: 350%;
+  font-size: 400%;
   font-weight: bold;
 }
 
@@ -27,13 +27,12 @@ footer {
 }
 
 #main {
-  background-image: url(../img/bg1.jpeg);
-  background-repeat: no-repeat;
-  background-attachment: fixed; 
-  padding-left: 35%;
-  padding-right: 35%;
+  padding-left: 20%;
+  padding-right: 20%;
   padding-bottom: 15px;
   min-height: 300px;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
 }
 
 footer p {
@@ -43,8 +42,8 @@ footer p {
 
 .choice {
   border: 1px solid black;
-  padding: 5px;
-  margin: 5px;
+  padding: 7px;
+  margin: 7px;
   background-color: white;
   color: black;
 }
@@ -59,32 +58,52 @@ footer p {
   background-color: gold;
 }
 
-.board {
-  /*background-color: lightgray;*/
-  padding-bottom: 5px;
+#board {
+  padding: 20px;
+  margin: 20px;
+  /*border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray; */
 }
 
-.correct {
-  background-color: green;
-}
-
-.correct:hover {
-  background-color: green;
-}
-
+.correct,
+.correct:hover,
 .correct:active {
   background-color: green;
 }
 
-.incorrect {
+
+.incorrect,
+.inncorrect:hover,
+.incorrect:active {
   background-color: red;
 }
 
-.incorrect: hover {
-  background-color: red;
+.missedGuess {
+  border: 3px solid green;
+  color: green;
+  font-weight: bold;
+  padding: 5px;
 }
 
-.incorrect: active {
-  background-color: red;
+.boardBg {
+  background-image: url(../img/bg.png);
+  background-repeat: repeat;
+  background-attachment: fixed; 
+}
+
+.boardCorrect{
+  background: rgba(0,255,0,.5)/*, url(../img/bg.png), repeat;*/
+  background: -webkit-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed;
+  background: -o-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed; 
+  background: -moz-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed;
+  background: radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed; 
+}
+
+.boardWrong{
+  background: rgba(255,0,0,.5); 
+  background: -webkit-radial-gradient(rgba(255,0,0,0.5), rgba(255,0,0,0)), url(../img/bg.png), repeat, fixed; 
+  background: -o-radial-gradient(rgba(255,0,0,0.5), rgba(255,0,0,0)), url(../img/bg.png), repeat, fixed; 
+  background: -moz-radial-gradient(rgba(255,0,0,0.5), rgba(255,0,0,0)), url(../img/bg.png), repeat, fixed; 
+  background: radial-gradient(rgba(255,0,0,0.5), rgba(255,0,0,0)), url(../img/bg.png), repeat, fixed; 
 }
 
