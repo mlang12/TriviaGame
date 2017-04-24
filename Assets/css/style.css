@@ -1,6 +1,6 @@
 * {
   text-align: center;
-  color: lightgray;
+  color: darkslategray;
 }
 
 h1,
@@ -10,11 +10,12 @@ h4,
 header,
 footer {
   font-family: 'Kaushan Script', cursive;
-  text-shadow: -1px 0 darkblue, 0 1px darkblue, 1px 0 darkblue, 0 -1px darkblue;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 h1 {
   font-size: 350%;
+  font-weight: bold;
 }
 
 header,
@@ -25,13 +26,65 @@ footer {
   background-color: white;
 }
 
-.main {
-  background-image: url(../img/bg.jpeg);
+#main {
+  background-image: url(../img/bg1.jpeg);
   background-repeat: no-repeat;
   background-attachment: fixed; 
+  padding-left: 35%;
+  padding-right: 35%;
+  padding-bottom: 15px;
+  min-height: 300px;
 }
 
 footer p {
   padding-top: 25px;
   font-size: 150%;
 }
+
+.choice {
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px;
+  background-color: white;
+  color: black;
+}
+
+.choice:hover {
+  border-color: gold;
+  background-color: lightgray;
+}
+
+.choice:active {
+  border-color: #dfb200;
+  background-color: gold;
+}
+
+.board {
+  /*background-color: lightgray;*/
+  padding-bottom: 5px;
+}
+
+.correct {
+  background-color: green;
+}
+
+.correct:hover {
+  background-color: green;
+}
+
+.correct:active {
+  background-color: green;
+}
+
+.incorrect {
+  background-color: red;
+}
+
+.incorrect: hover {
+  background-color: red;
+}
+
+.incorrect: active {
+  background-color: red;
+}
+
