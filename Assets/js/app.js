@@ -126,6 +126,7 @@ window.onload = function(){
           }
           i++;
         });
+        document.activeElement.blur()
         board.className = "row boardBg";
         this.displayMode();
 

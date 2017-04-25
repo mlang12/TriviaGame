@@ -73,7 +73,7 @@ footer p {
 
 
 .incorrect,
-.inncorrect:hover,
+.incorrect:hover,
 .incorrect:active {
   background-color: red;
 }
