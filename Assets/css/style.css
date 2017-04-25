@@ -92,7 +92,7 @@ footer p {
 }
 
 .boardCorrect{
-  background: rgba(0,255,0,.5)/*, url(../img/bg.png), repeat;*/
+  background: rgba(0,255,0,.5)
   background: -webkit-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed;
   background: -o-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed; 
   background: -moz-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed;

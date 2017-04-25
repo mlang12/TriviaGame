@@ -1,5 +1,5 @@
 window.onload = function(){
-
+  "use strict";
   //Declare variables that will be tied to parts of the DOM
   var category = document.getElementById("category");
   var question = document.getElementById("question");
@@ -9,7 +9,7 @@ window.onload = function(){
   var d = document.getElementById("d");
   var choices = document.getElementsByClassName("choice");
   var msgHolder = document.getElementById("msgHolder");
-  var board = document.getElementById("main")
+  var board = document.getElementById("main");
 
   var i = 0;
 
@@ -73,45 +73,50 @@ window.onload = function(){
       totalLosses: 0
     },
 
+    //This key function runs the game clock. It will update the timer per cycle as well
+    //as trigger the onTick function to check for game changes. Runs ever tenth of second
     updateTimer: function(){
-      game.timer --
-      game.displayTimer = String(Math.ceil(game.timer/10));
-      if (game.timer <= 90 && game.timer >= 0 ){
-        game.displayTimer = "0" + Math.ceil(game.timer/10)
-      } else if (game.timer< 0) {
-        game.displayTimer = "00" 
+      this.timer--;
+      this.displayTimer = String(Math.ceil(this.timer/10));
+      if (this.timer <= 90 && this.timer >= 0 ){
+        this.displayTimer = "0" + Math.ceil(this.timer/10); //Keeps game clock formatted to 2 digits
+      } else if (this.timer< 0) {
+        this.displayTimer = "00"; //Keeps game clock formatted to 2 digits
       }
-      game.onTick(game.mode); //Updates game based on the game mode
+      this.onTick(this.mode); //Updates game based on the game mode
     },
 
     //This function does checks on every 'tick' of the game time to watch for game state changes
     //and make calls and updates variables as appropriate.
     onTick: function(mode){
-            //if there are no more questions show the end of questions screen and allow user to reset game
+      
+      //if there are no more questions show the end of questions screen and allow user to reset game
       if(this.pastQuestions.length >= this.question.length){
+        board.className = "row boardBg"
         this.message = "Total Correct: " + this.scoreboard.totalWins + 
-          "<br> Total Wrong: " + this.scoreboard.totalLosses 
-        this.mode = "outOfQuestions"
+          "<br> Total Wrong: " + this.scoreboard.totalLosses;
+        this.mode = "outOfQuestions";
         this.display.category.innerHTML = "Push the button to reset the game.";
         this.display.question.innerHTML =  "Oops we ran out of questions!";
         this.display.a.innerHTML = "Reset";
-        this.displayMode()
+        this.displayMode();
         return;
       }
 
       //When the game is in preGame mode (on load)
       if(mode === "preGame"){
+        this.display.a.className = "choice missedGuess"
         this.display.category.innerHTML = "Push the button to get started.";
         this.display.question.innerHTML =  "Welcome to GeoTrivia";
         this.display.a.innerHTML = "Let's Play!";
-        this.displayMode()
-        return
+        this.displayMode();
+        return;
       }
       
       //When the user is currently "in a question" and computer awaiting input
       if(mode === "inQuestion"){
-        var _this = this
-        i = 0
+        var _this = this;
+        i = 0;
         
         //Update the gameboard with items of the current question
         Object.keys(this.display).forEach(function(el){
@@ -122,7 +127,7 @@ window.onload = function(){
           i++;
         });
         board.className = "row boardBg";
-        this.displayMode()
+        this.displayMode();
 
         //When the timer hits zero and user hasn't made a guess
         if(this.timer <= 0 ){
@@ -130,11 +135,11 @@ window.onload = function(){
           this.scoreboard.losses++;
           this.message = "Out of time! <br> The right answer was \"" 
             + this.question[this.currentQuestion][this.question[this.currentQuestion].length-1].toUpperCase()
-            + "\""
+            + "\"";
           this.timer = 30;
           this.remainingQuestions--;
           this.display[this.question[this.currentQuestion][this.question[this.currentQuestion].length-1]].className = "choice missedGuess";
-          board.className = "row boardWrong"
+          board.className = "row boardWrong";
         }
 
         msgHolder.innerHTML = this.displayTimer; //Update the timer
@@ -143,8 +148,9 @@ window.onload = function(){
       
       //If the game is "after a question" in the brief period in between questions
       if(mode === "afterQuestion"){
-        msgHolder.innerHTML = this.message
+        msgHolder.innerHTML = this.message;
         
+        //When the short between-round timer is up and there are remaining questions in the round
         if (this.timer <= 0 && this.remainingQuestions >= 1) {
           this.mode = "inQuestion";
           this.timer = 100;
@@ -152,6 +158,7 @@ window.onload = function(){
           this.currentQuestion = this.getNewQuestion();
         }
 
+        //When the short between-round timer is up and there are no more questions in the round
         if (this.timer <= 0 && this.remainingQuestions <= 0) {
           this.pastQuestions.push(this.currentQuestion);
           this.currentQuestion = this.getNewQuestion();          
@@ -163,11 +170,11 @@ window.onload = function(){
         return;
       }
       
-      //If the current round is over
+      //If the current round is over this will trigger end-of-round messaging
       if(mode === "endRound"){
         board.className = "row boardBg";
         this.message = this.scoreboard.totalWins + 
-          " total correct. <br>" + this.scoreboard.totalLosses + " total wrong."
+          " total correct. <br>" + this.scoreboard.totalLosses + " total wrong.";
         this.display.category.innerHTML = "Round Complete";
         this.display.question.innerHTML =  "You got " + this.scoreboard.wins + 
           " correct <br> and " + this.scoreboard.losses + " wrong.";
@@ -179,52 +186,62 @@ window.onload = function(){
   
     },
 
+    //Runs on startup
     init: function(answerButtons) {
       //Add listener to each possible answer
-      i = 0
-      for(; i < answerButtons.length ; i++ ){
+      var _this = this;
+      i = 0;
+      while(i < answerButtons.length){
         answerButtons[i].addEventListener("click", function(el){
-          game.select(el.toElement.id);
-        })
+          _this.select(el.toElement.id);
+        });
+        i++; 
       }
       this.currentQuestion = this.getNewQuestion();
       this.mode = "preGame";
     },
 
+    //Runs when the user selects an answer/ clicks a "choice" div
+    //The Div's ID is passed to the function
     select: function(el){
-      if (game.mode === "preGame"){
-        game.mode = "inQuestion";
+
+      //If the game is in preGame mode then a click signals the start of the game
+      //Moves the game into the "inQuestion" mode 
+      if (this.mode === "preGame"){
+        this.mode = "inQuestion";
         this.timer = 100;
         return;
       }
 
-      if (game.mode === "inQuestion"){
+      //If the user is "in a question" and computer is awaiting input
+      if (this.mode === "inQuestion"){
+
         //If the user picks the correct option
         if(this.question[this.currentQuestion][this.question[this.currentQuestion].length-1] === el){
-          this.scoreboard.wins ++;
-          this.display[el].className = "choice correct";
+          this.scoreboard.wins++;
+          this.display[el].className = "choice correct"; //Adding the class "correct" will trigger css formats to the element
           this.message = "Correct!";
-          board.className = "row boardCorrect"
+          board.className = "row boardCorrect"; //Adding the class "boardCorrect" will trigger css formats to the element
+
         } else { //If the user didn't make the correct selection
-          this.scoreboard.losses ++;
-          this.display[el].className = "choice incorrect";
-          board.className = "row boardWrong"
+          this.scoreboard.losses++;
+          this.display[el].className = "choice incorrect"; //Adding the class "incorrect" will trigger css formats to the element
+          board.className = "row boardWrong"; //Adding the class "boardWrong" will trigger css formats to the element
           this.display[this.question[this.currentQuestion][this.question[this.currentQuestion].length-1]].className = "choice missedGuess";
-          this.message = "Sorry, the right answer was \"" 
-            + this.question[this.currentQuestion][this.question[this.currentQuestion].length-1].toUpperCase()
-            + "\"";
+          this.message = "Sorry, the right answer was \""
+            + this.question[this.currentQuestion][this.question[this.currentQuestion].length-1].toUpperCase() + "\"";
         }
 
         //Change the game mode, reset timer to 'in-between questions time limit' reduce the amount of questions in round
         this.mode = "afterQuestion";
         this.timer = 30;
-        this.remainingQuestions --;
+        this.remainingQuestions--;
         return;
       }
 
       //If the round is over then there is only 1 button to click which will move into next round
-      if (game.mode === "endRound"){
-        game.mode = "inQuestion";
+      if (this.mode === "endRound"){
+        this.mode = "inQuestion";
         this.timer = 100;
         this.scoreboard.wins = 0;
         this.scoreboard.losses = 0;
@@ -233,13 +250,13 @@ window.onload = function(){
 
       //If the game is out of questions, the button will reset the game
       if(this.mode === "outOfQuestions"){
-        this.mode = "preGame"
+        this.mode = "preGame";
         this.scoreboard.wins = 0;
         this.scoreboard.losses = 0;
         this.scoreboard.totalWins = 0;
         this.scoreboard.totalLosses = 0;
         this.pastQuestions = [];
-        this.message = ""
+        this.message = "";
       }
     },
 
@@ -252,26 +269,29 @@ window.onload = function(){
       return tempnum;
     },
 
-    //This function is called during certain redraws (usually from onTick) and sets certain elements
-    //to display or not and updates the msgHolder element
+    //This function is called during certain redraws (usually from onTick) and will toggle
+    //"b," "c," and "d," buttons to display or not. Also updates the msgHolder element
     displayMode: function(){
       if(this.mode === "inQuestion" || this.mode === "afterQuestion"){
         this.display.b.style.display = "block";
         this.display.c.style.display = "block";
         this.display.d.style.display = "block";
-
       }
-      
       if(this.mode === "preGame" || this.mode === "outOfQuestions" || this.mode === "endRound"){
         this.display.b.style.display = "none";
         this.display.c.style.display = "none";
         this.display.d.style.display = "none";
       }
-
-      msgHolder.innerHTML = this.message
+      msgHolder.innerHTML = this.message;
     }
-  } //Close Game Obj
-  var cancelInterval = setInterval(game.updateTimer, 100);
+  }; //Close Game Obj
+
+  //Starts the game pulse and timer
+  setInterval(function(){
+    game.updateTimer(this);
+  }, 100);
+
+  //Initialize the game
   game.init(choices);
 
-}();
+};
