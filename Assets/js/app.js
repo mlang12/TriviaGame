@@ -18,18 +18,18 @@ window.onload = function(){
 
     //Question property is an array of arrays. Each sub array represents question/answer content
     question: [
-      ["Category: States", "What was the first US state?", "Massachusettes", "New Jersey", "Connecticut", "Delaware", "d"],
+      ["Category: States", "What was the first US state?", "Massachusetts", "New Jersey", "Connecticut", "Delaware", "d"],
       ["Category: States", "What is the smallest US state by area?", "Rhode Island", "Hawaii", "New Jersey", "Delaware", "a"],
       ["Category: States", "What is the most populated US state?", "New York", "Texas", "California", "Florida", "c"],
       ["Category: States", "What state has the highest mountain in the US?", "Washington", "Colorado", "Alaska", "Wyoming", "c"],
       ["Category: Countries", "What is the largest country by area?", "China", "Russia", "United States", "Canada", "b"],
       ["Category: Countries", "What country has the largest population?", "Russia", "India", "United States", "China", "d"],
-      ["Category: Countries", "What is the largest island by area that is also a country?", "Australia", "Madigascar", "Indonesia", "Japan", "c"],
+      ["Category: Countries", "What is the largest island by area that is also a country?", "Australia", "Madagascar", "Indonesia", "Japan", "c"],
       ["Category: Countries", "What is the most visited country in the world?", "England", "United States", "Japan", "France", "d"],
       ["Category: Bodies of Water", "What is the longest river in the world?", "Amazon", "Nile", "Mississippi", "Hudson", "a"],
       ["Category: Bodies of Water", "What is the biggest lake in the world?", "Superior", "Caspian", "Huron", "Victoria", "b"],
       ["Category: Bodies of Water", "What is the smallest ocean?", "Arctic", "Indian", "Atlantic", "Pacific", "a"],
-      ["Category: Bodies of Water", "Which of the following is not a sea?", "Mediterranean", "Caribean", "Black", "Bangoo", "d"]
+      ["Category: Bodies of Water", "Which of the following is not a sea?", "Mediterranean", "Caribbean", "Black", "Bangoo", "d"]
     ],
 
     //Contains the variables that refer to the areas of DOM to be
@@ -126,7 +126,7 @@ window.onload = function(){
           }
           i++;
         });
-        document.activeElement.blur()
+
         board.className = "row boardBg";
         this.displayMode();
 
@@ -184,26 +184,25 @@ window.onload = function(){
         this.displayMode();
         return;
       }
-  
     },
 
     //Runs on startup
-    init: function(answerButtons) {
-      //Add listener to each possible answer
-      var _this = this;
-      i = 0;
-      while(i < answerButtons.length){
-        answerButtons[i].addEventListener("click", function(el){
-          _this.select(el.toElement.id);
-        });
-        i++; 
-      }
+    init: function() {
+      var _this = this
+
+      //Add listener to answer area
+      document.getElementById("answers").addEventListener("click", function(el){
+        if (el.target.id.length === 1) { //only take clicks on elements with single char id name i.e. "a"
+          _this.select(el.target.id);
+        }
+      });
+
       this.currentQuestion = this.getNewQuestion();
       this.mode = "preGame";
     },
 
     //Runs when the user selects an answer/ clicks a "choice" div
-    //The Div's ID is passed to the function
+    //The button's ID is passed to the function
     select: function(el){
 
       //If the game is in preGame mode then a click signals the start of the game
@@ -273,15 +272,10 @@ window.onload = function(){
     //This function is called during certain redraws (usually from onTick) and will toggle
     //"b," "c," and "d," buttons to display or not. Also updates the msgHolder element
     displayMode: function(){
-      if(this.mode === "inQuestion" || this.mode === "afterQuestion"){
-        this.display.b.style.display = "block";
-        this.display.c.style.display = "block";
-        this.display.d.style.display = "block";
-      }
       if(this.mode === "preGame" || this.mode === "outOfQuestions" || this.mode === "endRound"){
-        this.display.b.style.display = "none";
-        this.display.c.style.display = "none";
-        this.display.d.style.display = "none";
+        this.display.b.className = "choice betweenRound";
+        this.display.c.className = "choice betweenRound";
+        this.display.d.className = "choice betweenRound";
       }
       msgHolder.innerHTML = this.message;
     }
@@ -293,6 +287,6 @@ window.onload = function(){
   }, 100);
 
   //Initialize the game
-  game.init(choices);
+  game.init();
 
 };

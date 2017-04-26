@@ -46,6 +46,9 @@ footer p {
   margin: 7px;
   background-color: white;
   color: black;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  width: 100%;
+  display: block;
 }
 
 .choice:hover {
@@ -92,7 +95,7 @@ footer p {
 }
 
 .boardCorrect{
-  background: rgba(0,255,0,.5)
+  background: rgba(0,255,0,.5);
   background: -webkit-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed;
   background: -o-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed; 
   background: -moz-radial-gradient(rgba(0,255,0,0.5), rgba(0,255,0,0)), url(../img/bg.png), repeat, fixed;
@@ -105,5 +108,13 @@ footer p {
   background: -o-radial-gradient(rgba(255,0,0,0.5), rgba(255,0,0,0)), url(../img/bg.png), repeat, fixed; 
   background: -moz-radial-gradient(rgba(255,0,0,0.5), rgba(255,0,0,0)), url(../img/bg.png), repeat, fixed; 
   background: radial-gradient(rgba(255,0,0,0.5), rgba(255,0,0,0)), url(../img/bg.png), repeat, fixed; 
+}
+
+button:focus {
+  outline: 0;
+}
+
+.betweenRound {
+  display: none;
 }
 
