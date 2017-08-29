@@ -11,4 +11,4 @@ checks every tenth of second whether something has changed.
 
 HTML, CSS, Bootstrap (for the grid), and Vanilla JS used to make this game.
 
-A deployed link can be found at https://mlang12.github.io/TriviaGame/
+A deployed link can be found at https://mindbrier.com/trivia
